@@ -246,3 +246,6 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 .vscode/settings.json
+gym_adminfy_django/GymAdminify/settings.py
+gym_adminfy_django/requirements.txt
+gym_adminfy_django/GymAdminify/settings.py
