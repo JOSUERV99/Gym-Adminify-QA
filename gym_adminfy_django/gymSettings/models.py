@@ -8,8 +8,8 @@ class Config(models.Model):
     timeperday = models.JSONField(db_column='TimePerDay')  # Field name made lowercase.
 
     class Meta:
-        managed = False
-        db_table = 'Config'
+        managed = True
+        db_table = 'config'
     def get_absolute_url(self):
         return f'/{self.id}/'
     def __str__(self):
@@ -22,7 +22,7 @@ class Gym(models.Model):
     config = models.ForeignKey(Config, models.DO_NOTHING, db_column='Config_ID')  # Field name made lowercase.
     
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Gym'
     def get_absolute_url(self):
         return f'/{self.id}/'
@@ -34,10 +34,10 @@ class Room(models.Model):
     name = models.CharField(db_column='Name', max_length=45)  # Field name made lowercase.
     capacity = models.IntegerField(db_column='Capacity')  # Field name made lowercase.
     gym = models.ForeignKey(Gym, models.DO_NOTHING, db_column='Gym_ID')  # Field name made lowercase.
-    schedule = models.ForeignKey(Schedule, models.DO_NOTHING, db_column='Schedule_ID')  # Field name made lowercase.
+    schedule = models.ForeignKey(Schedule, models.DO_NOTHING, default='0',db_column='Schedule_ID')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Room'
     def get_absolute_url(self):
         return f'/{self.id}/'

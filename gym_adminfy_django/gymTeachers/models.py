@@ -8,7 +8,7 @@ class Teacher(models.Model):
     services = models.ManyToManyField(Service)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Teacher'
         
     def get_absolute_url(self):
@@ -23,7 +23,7 @@ class Teachercategory(models.Model):
     def __str__(self):
         return self.name
     class Meta:
-        managed = False
+        managed = True
         db_table = 'TeacherCategory'
     def get_absolute_url(self):
         return f'/{self.id}/'

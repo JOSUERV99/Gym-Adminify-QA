@@ -8,7 +8,7 @@ class Client(models.Model):
     clientstate = models.ForeignKey('ClientState', models.DO_NOTHING, db_column='ClientState_ID')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Client'
         
     def __str__(self):
@@ -22,7 +22,7 @@ class ClientState(models.Model):
     name = models.CharField(db_column='Name', max_length=45)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'ClientState'
 
     def __str__(self):

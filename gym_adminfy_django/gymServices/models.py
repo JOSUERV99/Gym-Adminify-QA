@@ -7,7 +7,7 @@ class Service(models.Model):
     hourfee = models.DecimalField(db_column='HourFee', max_digits=15, decimal_places=2)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Service'
 
     def get_absolute_url(self):

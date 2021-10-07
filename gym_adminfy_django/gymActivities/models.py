@@ -17,7 +17,7 @@ class Activity(models.Model):
     client = models.ManyToManyField(Client)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Activity'
     
     def get_absolute_url(self):

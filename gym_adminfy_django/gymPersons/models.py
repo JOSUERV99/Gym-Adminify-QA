@@ -8,7 +8,7 @@ class Person(models.Model):
     mail = models.CharField(max_length=45, db_collation='utf8_general_ci')
     identification = models.CharField(max_length=45)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Person'
     def __str__(self):
         return self.name
@@ -19,7 +19,7 @@ class Userofperson(models.Model):
     user = models.ForeignKey(User,  on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'UserOfPerson'
     def __str__(self):
         return self.person.name+" - "+self.user.username

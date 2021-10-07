@@ -6,7 +6,7 @@ class Schedule(models.Model):
     year = models.IntegerField(db_column='Year')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Schedule'
     
     def __str__(self):
