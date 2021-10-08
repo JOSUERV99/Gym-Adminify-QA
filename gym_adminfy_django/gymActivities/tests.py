@@ -1,39 +1,72 @@
 from django.test import TestCase
 from django.test import SimpleTestCase
 
-from calendar import IllegalMonthError, month
-import datetime
-from django.test import SimpleTestCase
 from .views import AllActivities
-
-
-from gymTeachers.models import Teacher
 
 from .models import Activity
-from .views import AllActivities
 from gymServices.models import Service
 from AdmSchedule.models import Schedule
-import datetime
+from gymTeachers.models import Teacher
+from gymPersons.models import Person
+from gymTeachers.models import Teachercategory
+
+from calendar import IllegalMonthError, month
+from datetime import datetime
 
 class CheckOverlap(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        # initialices the objects needed for the activity test
+        Schedule.objects.create(
+            month = 5,
+            year = 2021
+        )
+        
+        Service.objects.create(
+            name = "Yoga",
+            description = "Clases de yoga",            
+            hourfee = 10.5
+        )
+        
+        Person.objects.create(
+            name = "Ericka",
+            phone = 88888888,
+            mail = "ericka@gmail.com",
+            identification = "117870177"
+        )
+        
+        Teachercategory.objects.create(
+            name = "Principal"
+        )
+        
+        # saves foreigns keys for the class Teacher and Activity  
+        selected_person = Person.objects.get(id=1)
+        selected_teacher_category = Teachercategory.objects.get(id=1)
         selected_service = Service.objects.get(id=1)
+        
+        Teacher.objects.create(
+            person = selected_person ,
+            teachercategory = selected_teacher_category,
+        )
+        
         selected_teacher = Teacher.objects.get(person_id=1)
         selected_schedule = Schedule.objects.last()
-        new_Act = Activity.objects.create( capacity = 10, 
-                            dayofweek = 5,
-                            dayofmonth = 10,
+        
+        Activity.objects.create(
+            capacity = 10, 
+            dayofweek = 5,
+            dayofmonth = 10,
 
-                            startime = datetime.time(10, 30, 00), 
-                            endtime = datetime.time(11, 30, 00),
+            startime = datetime.time(10, 30, 00), 
+            endtime = datetime.time(11, 30, 00),
 
-                            service = selected_service, 
-                            teacher = selected_teacher,
-                            schedule = selected_schedule                   
-                        )
-    
+            service = selected_service, 
+            teacher = selected_teacher,
+            schedule = selected_schedule                   
+        )
+        # end setup
+        
     def no_time_day_overlap(self):
         all_act = AllActivities()
         startTime = "8:30"
