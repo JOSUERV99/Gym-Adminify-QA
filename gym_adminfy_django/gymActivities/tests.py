@@ -2,7 +2,7 @@ from calendar import IllegalMonthError
 import datetime
 from django.test import SimpleTestCase
 from .views import AllActivities
-from .models import Activity
+
 # Create your tests here.
 class GetDatesByDayTestCase(SimpleTestCase):
 
@@ -31,3 +31,9 @@ class GetDatesByDayTestCase(SimpleTestCase):
         all_act = AllActivities()    
         test = all_act.getDatesByDay(6,2,2020)
         self.assertEqual(test,[datetime.date(2020, 2, 1), datetime.date(2020, 2, 8), datetime.date(2020, 2, 15), datetime.date(2020, 2, 22), datetime.date(2020, 2, 29)])        
+    
+    def test_current_date(self):
+        all_act = AllActivities()    
+        test = all_act.getDatesByDay(4,10,2021)
+        print(test)
+        self.assertEqual(test,[datetime.date(2021, 10, 7), datetime.date(2021, 10, 14), datetime.date(2021, 10, 21), datetime.date(2021, 10, 28)])        
