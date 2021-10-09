@@ -14,7 +14,7 @@ import datetime
 class CheckOverlap(TestCase):
 
     @classmethod
-    def setUp(self):
+    def setUpTestData(cls):
         # initialices the objects needed for the activity test
         Schedule.objects.create(
             month = 5,
@@ -78,16 +78,20 @@ class CheckOverlap(TestCase):
         
         test =  all_act.checkOverlap(startTime, endTime, day)
         
-        self.assertTrue(test) # no debería haber overlap
+        self.assertFalse(test) # no debería haber overlap
 
     def test_time_overlap_no_day_overlap(self):
         """
         2- Escenario donde las horas chocan pero en diferente fecha
         """
+        all_act = AllActivities()
+        
         startTime = "10:30"
         endTime = "11:30"
         day = 2
-        test =  all_actall_act.checkOverlap(startTime, endTime, day)
+        
+        test =  all_act.checkOverlap(startTime, endTime, day)
+        
         self.assertFalse(test) # no debería haber overlap
     
     def test_day_overlap_no_time_overlap(self):
@@ -118,7 +122,7 @@ class CheckOverlap(TestCase):
         
         test = all_act.checkOverlap(startTime, endTime, day)
         
-        self.assertFalse(test) # hay overlap
+        self.assertFalse(test) # no hay overlap
 
     def test_no_overlap_time_edge(self):
         """
@@ -142,7 +146,7 @@ class CheckOverlap(TestCase):
         all_act = AllActivities()
         startTime = "10:30"
         endTime = "11:30"
-        day = 5
+        day = 1
         
         test = all_act.checkOverlap(startTime, endTime, day)
         
