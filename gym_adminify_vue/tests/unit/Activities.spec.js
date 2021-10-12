@@ -62,7 +62,27 @@ describe('Activities.vue -> validateHours() tests: ', () => {
     expect(wrapper.vm.validateHours()).toBe(false)
   })
 
-  // Case 3: Inputted start-time and end-time are both empty strings
+  // Case 3: Inputted start-time is before inputted end-time
+  it('Start-time before end-time', () => {
+    wrapper.setData({
+      activityStartTime_new: '10:30',
+      activityEndTime_new: '11:30'
+    })
+
+    expect(wrapper.vm.validateHours()).toBe(true)
+  })
+
+  // Case 4: Inputted start-time and end-time are both NULL values
+  it('Null start-time and end-time', () => {
+    wrapper.setData({
+      activityStartTime_new: null,
+      activityEndTime_new: null
+    })
+
+    expect(wrapper.vm.validateHours()).toBe(false)
+  })
+
+  // Case 5: Inputted start-time and end-time are both empty strings
   it('Empty start-time and end-time', () => {
     wrapper.setData({
       activityStartTime_new: '',
@@ -72,7 +92,7 @@ describe('Activities.vue -> validateHours() tests: ', () => {
     expect(wrapper.vm.validateHours()).toBe(false)
   })
 
-  // Case 4: Inputted start-time and end-time are both out of range
+  // Case 6: Inputted start-time and end-time are both out of range
   it('Start-time and end-time out of range', () => {
     wrapper.setData({
       activityStartTime_new: '10:65',
