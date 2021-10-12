@@ -69,6 +69,7 @@ class CheckOverlap(TestCase):
     def test_no_time_day_overlap(self):
         """
         1- Escenario donde no choca ni el día ni la hora
+        Actividad en base de datos: startTime = 10:30, endTime = 11:30, dayofweek = 1
         """
         all_act = AllActivities()
         
@@ -83,6 +84,7 @@ class CheckOverlap(TestCase):
     def test_time_overlap_no_day_overlap(self):
         """
         2- Escenario donde las horas chocan pero en diferente fecha
+        Actividad en base de datos: startTime = 10:30, endTime = 11:30, dayofweek = 1
         """
         all_act = AllActivities()
         
@@ -97,6 +99,7 @@ class CheckOverlap(TestCase):
     def test_day_overlap_no_time_overlap(self):
         """
         3- Escenario donde choca el día pero no la hora
+        Actividad en base de datos: startTime = 10:30, endTime = 11:30, dayofweek = 1
         """
         all_act = AllActivities()
         
@@ -107,6 +110,36 @@ class CheckOverlap(TestCase):
         test = all_act.checkOverlap(startTime, endTime, day)
         
         self.assertFalse(test) # no debería haber overlap
+
+    def test_no_overlap_time_edge(self):
+        """
+        5- Escenario donde choca el día y no la hora, 
+        pero la hora de inicio del set up y la hora fin del test es la misma 
+        Actividad en base de datos: startTime = 10:30, endTime = 11:30, dayofweek = 1
+        """
+        all_act = AllActivities()
+        
+        startTime = "8:30"
+        endTime = "10:30"
+        day = 1
+        
+        test = all_act.checkOverlap(startTime, endTime, day)
+        
+        self.assertFalse(test) # no debería haber overlap
+    
+    def test_time_day_overlap(self):
+        """
+        6- Escenario donde choca el día y la hora
+        Actividad en base de datos: startTime = 10:30, endTime = 11:30, dayofweek = 1
+        """
+        all_act = AllActivities()
+        startTime = "10:30"
+        endTime = "11:30"
+        day = 1
+        
+        test = all_act.checkOverlap(startTime, endTime, day)
+        
+        self.assertTrue(test) # hay overlap
 
     def test_without_activities(self):
         """
@@ -123,31 +156,3 @@ class CheckOverlap(TestCase):
         test = all_act.checkOverlap(startTime, endTime, day)
         
         self.assertFalse(test) # no hay overlap
-
-    def test_no_overlap_time_edge(self):
-        """
-        5- Escenario donde choca el día y no la hora, 
-        pero la hora de inicio del set up y la hora fin del test es la misma 
-        """
-        all_act = AllActivities()
-        
-        startTime = "8:30"
-        endTime = "10:30"
-        day = 1
-        
-        test = all_act.checkOverlap(startTime, endTime, day)
-        
-        self.assertFalse(test) # no debería haber overlap
-    
-    def test_time_day_overlap(self):
-        """
-        6- Escenario donde choca el día y la hora
-        """
-        all_act = AllActivities()
-        startTime = "10:30"
-        endTime = "11:30"
-        day = 1
-        
-        test = all_act.checkOverlap(startTime, endTime, day)
-        
-        self.assertTrue(test) # hay overlap

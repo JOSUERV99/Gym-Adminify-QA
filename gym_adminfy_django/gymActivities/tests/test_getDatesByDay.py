@@ -42,12 +42,19 @@ class GetDatesByDayTestCase(SimpleTestCase):
         Escenario cuando el año que se ingresa es biciesto, y el dia ingresado cae 29
         """
         test = self.all_act.getDatesByDay(6,2,2020)
-        self.assertEqual(test,[datetime.date(2020, 2, 1), datetime.date(2020, 2, 8), datetime.date(2020, 2, 15), datetime.date(2020, 2, 22), datetime.date(2020, 2, 29)])        
+        self.assertEqual(test,[datetime.date(2020, 2, 1)
+                             , datetime.date(2020, 2, 8)
+                             , datetime.date(2020, 2, 15)
+                             , datetime.date(2020, 2, 22)
+                             , datetime.date(2020, 2, 29)])        
     
     def test_current_date(self):
         """
         Escenario donde se verifica el resultado con la fecha de la prueba como parametro.
         """ 
         test = self.all_act.getDatesByDay(4,10,2021)
-        self.assertEqual(test,[datetime.date(2021, 10, 7), datetime.date(2021, 10, 14), datetime.date(2021, 10, 21), datetime.date(2021, 10, 28)])        
+        self.assertEqual(test,[datetime.date(2021, 10, 7)
+                             , datetime.date(2021, 10, 14)
+                             , datetime.date(2021, 10, 21)
+                             , datetime.date(2021, 10, 28)])        
 
