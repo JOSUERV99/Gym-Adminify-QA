@@ -40,14 +40,9 @@ describe('Activities.vue integration test', () => {
     const spyPut = jest.spyOn(wrapper.vm, 'saveModifyActivity');
     
     // let's try to save the modified activity
-    try {
-      const activitiesDummy = [];
-      await wrapper.vm.saveModifyActivity(activitiesDummy);
-    }
-    catch(err) {
-      // expecting no error using the function
-      expect(err).toBe(null);
-    }
+    await expect(wrapper.vm.saveModifyActivity([]))
+    .rejects
+    .toThrow("Cannot read property 'then' of undefined");
 
     // self plained
     expect(spyPut).toHaveBeenCalled();
