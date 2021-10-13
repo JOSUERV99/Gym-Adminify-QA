@@ -397,7 +397,7 @@ export default {
       return state == 1 ? "✓" : "✗";
     },
     validateHours(){
-      console.log("hours");
+      //console.log("hours");
       var splitS = this.activityStartTime_new.split(":"); 
       var splitE = this.activityEndTime_new.split(":"); 
       if (splitE[0]-splitS[0] < 0 ){
@@ -526,9 +526,11 @@ export default {
           startime: this.activityStartTime_edit,
           endtime: this.activityEndTime_edit,
         }
+        console.log("Activities.vue 529");
         await axios
         .put("/api/v1/activities/"+this.changing+"/", formData)
         .then(response => {
+            console.log("Todo bien");
             toast({
               message: "Ha modificado la actividad exitosamente", type: "is-success",
               dismissible: true, pauseOnHover: true,

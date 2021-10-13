@@ -20,7 +20,12 @@ describe('Activities.vue', () => {
       data() {
         return {
           activityStartTime_new: '10:30',
-          activityEndTime_new: '10:30'
+          activityEndTime_new: '10:30',
+          activityCapacity_edit: '10',
+          activityDay_edit: 'Lunes',
+          days: ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'],
+          activityStartTime_edit: '10:30',
+          activityEndTime_edit: '11:30'
         }
       },
       global: {
@@ -29,6 +34,8 @@ describe('Activities.vue', () => {
       }
     } })
 
-    expect(wrapper.vm.validateHours()).toBe(true)
+    expect(wrapper.vm.validateHours()).toBe(true);
+    expect(wrapper.vm.saveModifyActivity(0)).toMatchObject({});
+
   })
 })
