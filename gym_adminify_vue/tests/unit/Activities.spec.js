@@ -12,6 +12,8 @@ const store = new Vuex.Store({
                                 }
                               },
                             })
+
+
 describe('Activities.vue', () => {
   it('renders a message and responds correctly to user input', () => {
     const wrapper = shallowMount(Activities, {
