@@ -1,6 +1,9 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Activities from '../../src/views/Activities.vue'
 import Vuex from 'vuex';
+import mockAxios from 'jest-mock-axios';
+
+process.on('unhandledRejection', () => {});
 jest.mock('axios');
 
 const store = new Vuex.Store({
@@ -15,36 +18,80 @@ const store = new Vuex.Store({
 });
 
 describe('Activities.vue integration test', () => {
-  it('save modify activity using PUT request', async () => {
 
-    // define actitivies component state using stub
-    const activitiesViewStub = {
-        activityStartTime_new: '10:30',
-        activityEndTime_new: '10:30',
-        activityDay_edit : 1,
-        activities: [], 
+  let wrapper, dummyActivities, dummyActivitiesData;
+
+  beforeAll(() => {
+
+    // Component with default values
+    dummyActivitiesData = {
+      activityStartTime_new: '10:30',
+      activityEndTime_new: '10:30',
+      activityDay_edit : 1,
+      days: '',
+      activityDay_edit: '',
+      changing: '',
+      activities : []
     }
 
-    // mount the actities component into a variable
-    const wrapper = shallowMount(Activities, {
-        data() {
-          return activitiesViewStub
-        },
-        global: {
+    // dummy activities for axios.put calls
+    dummyActivities = [
+      {
+          id: 4,
+          client: [],
+          dayofmonth: 1,
+          teacher: {
+              name: "Miguel",
+              get_absolute_url: "/1/"
+          },
+          unrolled_clients: [
+              {
+                  name: "enrtique",
+                  person: 3
+              }
+          ]
+      }
+    ]
+
+    // mount the activities vue component with dummy data
+    wrapper = shallowMount(Activities, {
+      data() {
+        return dummyActivitiesData
+      },
+      global: {
         mocks: {
           $store: store,
         }
-    }});
+      }
+    })
+  })
 
-    // create an spy to know if the put method have been called
-    const spyPut = jest.spyOn(wrapper.vm, 'saveModifyActivity');
+  beforeEach(() => {
+    mockAxios.put.mockImplementationOnce(() =>
+    Promise.resolve({
+      status : 202
+    }));
+  })
+
+  it('Escenario donde la actividad tenga clientes matriculados', () => {
     
     // let's try to save the modified activity
-    await expect(wrapper.vm.saveModifyActivity([]))
-    .rejects
-    .toThrow("Cannot read property 'then' of undefined");
+    wrapper.vm.saveModifyActivity(dummyActivities)
+    expect(mockAxios.put).toHaveBeenCalledTimes(0);
+  })
 
-    // self plained
-    expect(spyPut).toHaveBeenCalled();
+  it('Escenario donde la actividad no tenga clientes matriculados', async () => {
+
+    // let's try to save the modified activity
+    wrapper.vm.saveModifyActivity(dummyActivities)
+    expect(mockAxios.put).toHaveBeenCalledTimes(0);
   });
+
+  it('Escenario donde la lista de clientes matriculados sea nula', async () => {
+
+    // let's try to save the modified activity
+    wrapper.vm.saveModifyActivity(null)
+    expect(mockAxios.put).toHaveBeenCalledTimes(0);
+  });
+
 })
