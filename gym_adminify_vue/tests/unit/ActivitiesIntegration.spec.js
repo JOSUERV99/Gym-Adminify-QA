@@ -73,25 +73,31 @@ describe('Activities.vue integration test', () => {
     }));
   })
 
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
   it('Escenario donde la actividad tenga clientes matriculados', () => {
     
     // let's try to save the modified activity
-    wrapper.vm.saveModifyActivity(dummyActivities)
-    expect(mockAxios.put).toHaveBeenCalledTimes(0);
+    wrapper.vm.saveModifyActivity(dummyActivities).then(() => {
+      expect(mockAxios.put).toHaveBeenCalledTimes(0);
+    })
   })
 
-  it('Escenario donde la actividad no tenga clientes matriculados', async () => {
+  it('Escenario donde la actividad no tenga clientes matriculados', () => {
 
-    // let's try to save the modified activity
-    wrapper.vm.saveModifyActivity(dummyActivities)
-    expect(mockAxios.put).toHaveBeenCalledTimes(0);
+    // let's try to save the modified activity 
+    wrapper.vm.saveModifyActivity([]).then(() => {
+      expect(mockAxios.put).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('Escenario donde la lista de clientes matriculados sea nula', async () => {
+  it('Escenario donde la lista de clientes matriculados sea nula', () => {
 
     // let's try to save the modified activity
-    wrapper.vm.saveModifyActivity(null)
-    expect(mockAxios.put).toHaveBeenCalledTimes(0);
+    wrapper.vm.saveModifyActivity(null).then(() => {
+      expect(mockAxios.put).toHaveBeenCalledTimes(0);
+    })
   });
-
 })
